@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>图像处理大作业</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="header">
+        <div class="title">图像处理大作业</div>
+        <div class="action-buttons">
+            <label class="custom-file-upload">
+                <input type="file" id="upload-input" multiple>
+                图片上传
+            </label>
+            <button id="download-btn" disabled>图片下载</button>
+        </div>
+    </div>
+    <div class="menu-bar">
+        <button class="menu-btn active" data-target="processing">图像增强</button>
+        <button class="menu-btn" data-target="frequency">频域图像处理</button>
+        <button class="menu-btn" data-target="segmentation">图像分割</button>
+        <button class="menu-btn" data-target="stitching">图像拼接与融合</button>
+        <button class="menu-btn" data-target="restoration">多场景图像复原</button>
+    </div>
+    <div id="progress-indicator" style="display:none;">
+        <div class="loading-spinner"></div>
+        <span>处理中，请稍候...</span>
+    </div>
+    <div id="main-content">
+        <!-- 图像处理 -->
+        <div class="feature-panel" id="processing-panel">
+            <div class="sub-menu-bar">
+                <select id="processing-type">
+                    <option value="gray">灰度转化</option>
+                    <option value="binary">二值图</option>
+                    <option value="hist">直方图均衡化处理</option>
+                    <option value="smooth">平滑处理</option>
+                    <option value="sharpen">锐化处理</option>
+                    <option value="filter">滤波器处理</option>
+                    <option value="dl">深度学习</option>
+                </select>
+                <div id="processing-params" style="margin-left:10px;"></div>
+                <button id="apply-processing">应用</button>
+            </div>
+            <div class="image-viewer">
+                <div class="image-box">
+                    <div>原图</div>
+                    <img id="original-img-processing" src="" alt="未选择图片">
+                </div>
+                <div class="image-box">
+                    <div>处理后</div>
+                    <img id="processed-img-processing" src="" alt="未处理">
+                </div>
+            </div>
+        </div>
+        <!-- 频域图像处理 -->
+        <div id="panel-frequency" class="feature-panel" style="display: none;">
+            <div class="sub-menu-bar">
+                <select id="frequency-type">
+                    <option value="fft">傅里叶变换</option>
+                    <option value="lowpass">低通滤波器</option>
+                    <option value="highpass">高通滤波器</option>
+                </select>
+                <!-- 可根据不同类型动态显示所需参数，如 d0、n -->
+                <input type="number" id="frequency-d0" placeholder="截止频率d0" style="display:none;width:110px;">
+                <input type="number" id="frequency-n" placeholder="阶数n" style="display:none;width:90px;">
+                <select id="frequency-method" style="display:none;">
+                    <option value="ilpf">理想</option>
+                    <option value="blpf">巴特沃斯</option>
+                    <option value="glpf">高斯</option>
+                    <option value="ihpf">理想高通</option>
+                    <option value="bhpf">巴特沃斯高通</option>
+                    <option value="ghpf">高斯高通</option>
+                </select>
+                <button id="apply-frequency">应用</button>
+            </div>
+            <!-- 图像显示同其它模块 -->
+            <div class="image-viewer">
+                <div class="image-box">
+                    <span>原图</span>
+                    <img id="frequency-original" src="">
+                </div>
+                <div class="image-box">
+                    <span>处理结果</span>
+                    <img id="frequency-result" src="">
+                </div>
+            </div>
+        </div>
+        <!-- 图像分割 -->
+        <div class="feature-panel" id="segmentation-panel" style="display:none;">
+            <div class="sub-menu-bar">
+                <select id="segmentation-category">
+                    <option value="traditional">传统方法</option>
+                    <option value="dl">深度学习</option>
+                </select>
+                <!-- segmentation-type 的 options 由JS动态生成 -->
+                <select id="segmentation-type"></select>
+                    <button id="apply-segmentation">应用</button>
+            </div>
+            <div class="image-viewer">
+                <div class="image-box">
+                    <div>原图</div>
+                    <img id="original-img-segmentation" src="" alt="未选择图片">
+                </div>
+                <div class="image-box">
+                    <div>处理后</div>
+                    <img id="processed-img-segmentation" src="" alt="未处理">
+                </div>
+            </div>
+        </div>
+        <!-- 图像拼接与融合 -->
+        <div class="feature-panel" id="stitching-panel" style="display:none;">
+            <div class="sub-menu-bar">
+                <label class="custom-file-upload">
+                    <input type="file" id="stitching-upload" multiple>
+                    选择两张图片
+                </label>
+                <select id="stitching-type">
+                    <option value="sift_ransac">SIFT/SURF特征点检测 + RANSAC配准算法（自动拼接）</option>
+                    <option value="blend">多波段融合（简单金字塔融合）</option>
+                    <option value="superglue">SuperGlue特征匹配（深度学习）</option>
+                </select>
+                <button id="apply-stitching">应用</button>
+            </div>
+            <div class="image-viewer">
+                <div class="image-box">
+                    <div>原图1</div>
+                    <img id="original-img-stitching-1" src="" alt="未选择图片">
+                </div>
+                <div class="image-box">
+                    <div>原图2</div>
+                    <img id="original-img-stitching-2" src="" alt="未选择图片">
+                </div>
+                <div class="image-box">
+                    <div>处理后</div>
+                    <img id="processed-img-stitching" src="" alt="未处理">
+                </div>
+            </div>
+        </div>
+        <!-- 多场景图像复原 -->
+        <div class="feature-panel" id="restoration-panel" style="display:none;">
+            <div class="sub-menu-bar">
+                <select id="restoration-category">
+                    <option value="traditional">传统方法</option>
+                </select>
+                <select id="restoration-type">
+                    <option value="dehaze">去雾（暗通道先验）</option>
+                    <option value="deblur_wiener">去模糊（维纳滤波）</option>
+                    <option value="deblur_blind">去模糊（盲卷积）</option>
+                </select>
+                <div id="restoration-params" style="display:inline-block;margin-left:10px;"></div>
+                <button id="apply-restoration">应用</button>
+            </div>
+            <div class="image-viewer">
+                <div class="image-box">
+                    <div>原图</div>
+                    <img id="original-img-restoration" src="" alt="未选择图片">
+                </div>
+                <div class="image-box">
+                    <div>处理后</div>
+                    <img id="processed-img-restoration" src="" alt="未处理">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

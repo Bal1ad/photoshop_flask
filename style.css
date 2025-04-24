@@ -1,0 +1,154 @@
+body {
+    font-family: "Microsoft YaHei", Arial, sans-serif;
+    margin: 0;
+    background: #f4f4f4;
+}
+.header {
+    background: #22223b;
+    color: #fff;
+    padding: 18px 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.title {
+    font-size: 26px;
+    font-weight: bold;
+}
+.menu-bar {
+    background: #4a4e69;
+    padding: 0 35px;
+    display: flex;
+    gap: 20px;
+}
+.menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    padding: 15px 25px;
+    font-size: 16px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: border .2s;
+}
+.menu-btn.active {
+    border-bottom: 2px solid #f2e9e4;
+    color: #f2e9e4;
+}
+.feature-panel {
+    background: #fff;
+    margin: 30px 50px 0 50px;
+    padding: 25px;
+    border-radius: 9px;
+    box-shadow: 0 2px 6px #bbb8b8;
+}
+.sub-menu-bar {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.image-viewer {
+    display: flex;
+    gap: 40px;
+    justify-content: space-between; /* 两端对齐，拉到两侧 */
+    align-items: stretch;           /* 高度拉伸一致 */
+    width: 100%;
+    margin-top: 15px;
+}
+
+.image-box {
+    flex: 1 1 0;
+    background: #f2e9e4;
+    border-radius: 8px;
+    padding: 12px 15px;
+    box-shadow: 0 1px 3px #e9e9e9;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;       /* 水平居中内容 */
+    justify-content: center;   /* 垂直居中内容 */
+    min-width: 0;              /* 防止flex溢出 */
+    min-height: 180px;         /* 可根据需要调整 */
+    height: 100%;
+}
+
+.image-box img {
+    width: 100%;
+    height: 100%;
+    max-width: 400px;      /* 可根据需要调整最大宽度 */
+    max-height: 220px;     /* 可根据需要调整最大高度 */
+    object-fit: contain;   /* 等比缩放填充，不裁切不变形 */
+    margin-top: 8px;
+    border-radius: 6px;
+    background: #fff;
+    border: 1px solid #ddd;
+    display: block;
+}
+.custom-file-upload {
+    display: inline-block;
+    padding: 7px 15px;
+    cursor: pointer;
+    background: #9a8c98;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: bold;
+}
+.custom-file-upload input[type="file"] {
+    display: none;
+}
+.action-buttons {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+button, select {
+    font-size: 15px;
+}
+button {
+    cursor: pointer;
+    border: none;
+    background: #c9ada7;
+    color: #fff;
+    padding: 8px 22px;
+    border-radius: 5px;
+    margin-left: 7px;
+    font-weight: bold;
+    transition: background .2s;
+}
+button:disabled {
+    background: #bbb;
+    cursor: not-allowed;
+}
+button:not(:disabled):hover {
+    background: #22223b;
+}
+#progress-indicator {
+    position: fixed;
+    left: 0; top: 0; right: 0; bottom: 0;
+    z-index: 9999;
+    background: rgba(255,255,255,0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 20px;
+    color: #22223b;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 5px solid #e0e0e0;
+    border-top: 5px solid #9a8c98;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 18px;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg);}
+    100% { transform: rotate(360deg);}
+}
